@@ -1,0 +1,32 @@
+apiVersion: v2
+appVersion: 3
+dependencies:
+  - name: postgresql
+    condition: postgresql.enabled
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    version: 8.1.2
+  - name: rabbitmq
+    condition: rabbitmq.enabled
+    repository: https://charts.bitnami.com/bitnami
+    version: 6.23.0
+  - name: redis
+    condition: redis.enabled
+    repository: https://charts.bitnami.com/bitnami
+    version: 10.6.2
+description: A Helm chart for Mayan EDMS
+home: https://www.mayan-edms.com/
+icon: https://www.mayan-edms.com/favicon.ico
+keywords:
+  - django
+  - dms
+  - edms
+  - mayan-edms
+  - python
+maintainers:
+  - name: Roberto Rosario
+    email: roberto.rosario@mayan-edms.com
+name: mayanedms
+sources:
+  - https://gitlab.com/mayan-edms/mayan-edms
+type: application
+version: 0.1.0
