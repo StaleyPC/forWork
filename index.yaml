@@ -1,0 +1,77 @@
+apiVersion: v1
+entries:
+  postgresql:
+  - apiVersion: v1
+    appVersion: 11.6.0
+    created: "2020-07-21T15:33:46.3526951-10:00"
+    description: Chart for PostgreSQL, an object-relational database management system
+      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    digest: 1be58f341cc273ddcddb088a73e830953494bc29f0e31772b43a994c30cdb855
+    home: https://www.postgresql.org/
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/bitnami-docker-postgresql
+    urls:
+    - charts/postgresql-8.1.2.tgz
+    version: 8.1.2
+  rabbitmq:
+  - apiVersion: v1
+    appVersion: 3.8.3
+    created: "2020-07-21T15:33:46.3547884-10:00"
+    description: Open source message broker software that implements the Advanced
+      Message Queuing Protocol (AMQP)
+    digest: 41cfc519dcbd819e1179e817bbf80db558f0dd1f5c3bc5d3cb92364515839678
+    home: https://www.rabbitmq.com
+    icon: https://bitnami.com/assets/stacks/rabbitmq/img/rabbitmq-stack-220x234.png
+    keywords:
+    - rabbitmq
+    - message queue
+    - AMQP
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: rabbitmq
+    sources:
+    - https://github.com/bitnami/bitnami-docker-rabbitmq
+    urls:
+    - charts/rabbitmq-6.23.0.tgz
+    version: 6.23.0
+  redis:
+  - apiVersion: v1
+    appVersion: 5.0.8
+    created: "2020-07-21T15:33:46.3577831-10:00"
+    description: Open source, advanced key-value store. It is often referred to as
+      a data structure server since keys can contain strings, hashes, lists, sets
+      and sorted sets.
+    digest: 7566016485fe291ad4a12570ccf816b8be5ead36287456267829b7bf53daf111
+    home: http://redis.io/
+    icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
+    keywords:
+    - redis
+    - keyvalue
+    - database
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: redis
+    sources:
+    - https://github.com/bitnami/bitnami-docker-redis
+    urls:
+    - charts/redis-10.6.2.tgz
+    version: 10.6.2
+generated: "2020-07-21T15:33:46.3434553-10:00"
