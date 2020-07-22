@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "celeryflower.fullname" . }}
+spec:
+  ports:
+    - name: http
+      port: 5555
+      protocol: TCP
+  selector:
+    {{- include "celeryflower.selectorLabels" . | nindent 4 }}
+

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "celeryflower.fullname" . }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "celeryflower.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "celeryflower.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          args:
+            - run_celery
+            - flower
+          envFrom:
+            - secretRef:
+                name: {{ include "mayan.secretsName" . }}
+            - configMapRef:
+                name: {{ include "mayan.configMapName" . }}
+          ports:
+            - name: http
+              containerPort: 5555
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
