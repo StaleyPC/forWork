@@ -1,0 +1,251 @@
+###########
+# Globals #
+###########
+
+global:
+  image:
+    repository: mayanedms/mayanedms
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 3
+  # namespace: mayan-edms
+
+imagePullSecrets: []
+# nameOverride: ""
+# fullnameOverride: ""
+
+
+###################
+# Service account #
+###################
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+
+################
+# Pod security #
+################
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+
+#################
+# Configuration #
+#################
+
+configuration:
+  MAYAN_LOCK_MANAGER_BACKEND: mayan.apps.lock_manager.backends.redis_lock.RedisLock
+
+
+###########
+# Secrets #
+###########
+
+secrets: {}
+
+
+############
+# Frontend #
+############
+
+mayanedmsfrontend:
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  # nameOverride: frontend
+  #chartNameSuffix: frontend
+  ingress:
+    enabled: enabled
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: mayan.k8s
+        paths: [/]
+    tls: []
+    #  - secretName: mayan-tls
+    #    hosts:
+    #      - mayan.k8s
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: "750m"
+      memory: "750Mi"
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+    # fsGroup: 999
+  service:
+    type: ClusterIP
+    port: 8000
+
+###########
+# Workers #
+###########
+
+mayanedmsworkers:
+  workers:
+    fast:
+      autoscaling:
+        enabled: false
+        minReplicas: 1
+        maxReplicas: 100
+        targetCPUUtilizationPercentage: 80
+        # targetMemoryUtilizationPercentage: 80
+      # nameOverride: frontend
+      nameSuffix: fast
+      replicaCount: 2
+      resources:
+        limits: {}
+          # cpu: "500m"
+          # memory: "1.5Gi"
+        # requests:
+        #   cpu: 100m
+        #   memory: 128Mi
+      securityContext: {}
+        # capabilities:
+        #   drop:
+        #   - ALL
+        # readOnlyRootFilesystem: true
+        # runAsNonRoot: true
+        # runAsUser: 1000
+        # fsGroup: 999
+    medium:
+      autoscaling:
+        enabled: false
+        minReplicas: 1
+        maxReplicas: 100
+        targetCPUUtilizationPercentage: 80
+        # targetMemoryUtilizationPercentage: 80
+      # nameOverride: frontend
+      nameSuffix: medium
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "1Gi"
+        # requests:
+        #   cpu: 100m
+        #   memory: 128Mi
+      securityContext: {}
+        # capabilities:
+        #   drop:
+        #   - ALL
+        # readOnlyRootFilesystem: true
+        # runAsNonRoot: true
+        # runAsUser: 1000
+        # fsGroup: 999
+    slow:
+      autoscaling:
+        enabled: false
+        minReplicas: 1
+        maxReplicas: 100
+        targetCPUUtilizationPercentage: 80
+        # targetMemoryUtilizationPercentage: 80
+      # nameOverride: frontend
+      nameSuffix: slow
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: "125m"
+          memory: "1.25Gi"
+        # requests:
+        #   cpu: 100m
+        #   memory: 128Mi
+      securityContext: {}
+        # capabilities:
+        #   drop:
+        #   - ALL
+        # readOnlyRootFilesystem: true
+        # runAsNonRoot: true
+        # runAsUser: 1000
+        # fsGroup: 999
+
+
+############
+# Services #
+############
+
+postgresql:
+  enabled: true
+  # nameOverride: postgresql
+  postgresqlDatabase: mayan
+  postgresqlUsername: mayan
+  postgresqlPassword: mayandbpass
+  postgresqlPostgresPassword: mayandbpass
+
+rabbitmq:
+  enabled: true
+  rabbitmq:
+    username: mayan
+    password: mayanrabbitmqpassword
+  service:
+    port: 5672
+
+redis:
+  enabled: true
+  # nameOverride: redis
+  password: mayanredispassword
+  redisPort: 6379
+
+
+###########
+# Storage #
+###########
+
+persistentVolume:
+  size: 10Gi
+
+persistentVolumeClaim:
+  size: 10Gi
+
+
+##########
+# Health #
+##########
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+startupProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 27
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
